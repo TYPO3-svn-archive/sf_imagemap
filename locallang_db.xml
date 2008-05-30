@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'buh_contactmap'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tt_content.list_type_pi1">Imagemap</label>
+			<label index="tx_sfimagemap_area">Imagemap Area</label>
+			<label index="tx_sfimagemap_area.name">Name</label>
+			<label index="tx_sfimagemap_area.alt">Alternate textt</label>
+			<label index="tx_sfimagemap_area.activebydefault">active by default</label>
+			<label index="tx_sfimagemap_area.hoverimage">Hoverimage</label>
+			<label index="tx_sfimagemap_area.shape">Shape of the entry</label>
+			<label index="tx_sfimagemap_area.shape.1">Circle</label>
+			<label index="tx_sfimagemap_area.shape.2">Square</label>
+			<label index="tx_sfimagemap_area.shape.3">Poly</label>
+			<label index="tx_sfimagemap_area.coordinates">Coordinates</label>
+			<label index="tx_sfimagemap_area.content">Content</label>
+			<label index="tx_sfimagemap_area.linktomap">Link to map</label>
+			<label index="tx_sfimagemap_area.linktopage">Link to page</label>
+			<label index="tx_sfimagemap_map">Contactmap Map</label>
+			<label index="tx_sfimagemap_map.title">Title</label>
+			<label index="tx_sfimagemap_map.alt">Alternate textt</label>
+			<label index="tx_sfimagemap_map.image">Mapimage</label>
+			<label index="tx_sfimagemap_map.entries">Entries</label>
+			<label index="tx_sfimagemap_map">Contactmap Maps&lt;-&gt;Entries</label>
+		</languageKey>
+	</data>
+</T3locallang>
