@@ -22,9 +22,11 @@
 			<label index="tx_sfimagemap_area.linktopage">Link to page</label>
 			<label index="tx_sfimagemap_map">Contactmap Map</label>
 			<label index="tx_sfimagemap_map.title">Title</label>
-			<label index="tx_sfimagemap_map.alt">Alternate textt</label>
+			<label index="tx_sfimagemap_map.timage">Kartenbild</label>
+			<label index="tx_sfimagemap_map.alt">Alternate text</label>
 			<label index="tx_sfimagemap_map.image">Mapimage</label>
-			<label index="tx_sfimagemap_map.entries">Entries</label>
+			<label index="tx_sfimagemap_map.tareas">Areas</label>
+			<label index="tx_sfimagemap_map.areas">Areaentries</label>
 			<label index="tx_sfimagemap_map">Contactmap Maps&lt;-&gt;Entries</label>
 		</languageKey>
 	</data>

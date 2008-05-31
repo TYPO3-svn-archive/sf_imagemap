@@ -25,9 +25,36 @@ $TCA['tx_sfimagemap_map'] = array(
 				'default' => '0'
 			)
 		),
+      	'image' => Array (        
+            'exclude' => 0,        
+            'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.image',        
+            'config' => Array (
+                'type' => 'group',
+                'internal_type' => 'file',
+                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],    
+                'max_size' => 1000,    
+                'uploadfolder' => 'uploads/tx_sfimagemap',
+                'show_thumbs' => 1,    
+                'size' => 1,    
+                'minitems' => 0,
+                'maxitems' => 1,
+            )
+        ),
+		'areas' => Array (		
+			'exclude' => 1,		
+			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.areas',		
+			'config' => Array (
+				'type' => 'select',
+				'size' => 20,
+				'foreign_table' => 'tx_sfimagemap_area',
+				'foreign_table_where' => 'AND (tx_sfimagemap_area.pid=###CURRENT_PID### OR tx_sfimagemap_area.pid=###STORAGE_PID###) ORDER BY title',
+				'minitems' => 0,
+         		'maxitems' => 100,
+			)
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => '--div--;Karte, name;;1;;1-1-1, image, --div--;Gebiete, areas;;;;2-2-2')
+		'0' => array('showitem' => 'name, hidden, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.timage, image, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.tareas, areas')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'hidden;;1, alt')
