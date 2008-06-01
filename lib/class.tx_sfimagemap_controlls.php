@@ -28,22 +28,23 @@ class tx_sfimagemap_controlls {
 		foreach ($imgs as $imgKey => $imgVal) {
 			$conf = array();
 			
-			/*$conf['image.']['file'] = $imgPath . $imgVal;
-			$conf['image.']['altText'] = $imgVal;
-			$conf['image.']['titleText'] = $imgVal;
+			$conf['file'] = $imgPath . $imgVal;
+			$conf['altText'] = $imgVal;
+			$conf['titleText'] = $imgVal;
 			
 			if (isset($PA['fieldConf']['config']['maxW'])) {
-				$conf['image.']['file.']['maxW'] = $PA['fieldConf']['config']['maxW'];
+				$conf['file.']['maxW'] = $PA['fieldConf']['config']['maxW'];
 			}
 			if (isset($PA['fieldConf']['config']['maxH'])) {
-				$conf['image.']['file.']['maxH'] = $PA['fieldConf']['config']['maxH'];
-			}*/
+				$conf['file.']['maxH'] = $PA['fieldConf']['config']['maxH'];
+			}
 
 			$images[] = $this->cObj->IMAGE(array('file' => $imgPath . $imgVal));
-			$images[] = $this->cObj->TEXT(array('value' => $imgPath . $imgVal));
+			$images[] = $this->cObj->TEXT(array('value' => $conf['file']));
 		}
-debug($images);
-		return implode(',', $images);
+		$images[] = $this->cObj->IMAGE(array('file' => '../../../../uploads/tx_sfimagemap/Nova_Orbis_Tabula_in_Lucem_Edita.jpg'));
+
+		return implode('', $images);
 	}
 	
 	protected function createCObj($pid = 1){

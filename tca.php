@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 $TCA['tx_sfimagemap_map'] = array(
 	'ctrl' => $TCA['tx_sfimagemap_map']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,name,alt,image,imagepreview,areas'
+		'showRecordFieldList' => 'hidden,name,alt,image,preview,areas'
 	),
 	'feInterface' => $TCA['tx_sfimagemap_map']['feInterface'],
 	'columns' => array(

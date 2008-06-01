@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 $TCA['tx_sfimagemap_map'] = array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:sf_contactmap/locallang_db.xml:tx_sfimagemap_map',		
+		'title' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map',		
 		'label' => 'name',	
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
@@ -25,7 +25,7 @@ $TCA['tx_sfimagemap_map'] = array(
 
 $TCA['tx_sfimagemap_area'] = array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:sf_contactmap/locallang_db.xml:tx_sfimagemap_area',		
+		'title' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area',		
 		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
