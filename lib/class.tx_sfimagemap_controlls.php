@@ -28,23 +28,26 @@ class tx_sfimagemap_controlls {
 		foreach ($imgs as $imgKey => $imgVal) {
 			$conf = array();
 			
-			$conf['file'] = $imgPath . $imgVal;
-			$conf['altText'] = $imgVal;
-			$conf['titleText'] = $imgVal;
+			$conf['image.']['file'] = $imgVal;
+			$conf['image.']['file.']['import.'] = $imgPath;
+			$conf['image.']['altText'] = $imgVal;
+			$conf['image.']['titleText'] = $imgVal;
 			
 			if (isset($PA['fieldConf']['config']['maxW'])) {
-				$conf['file.']['maxW'] = $PA['fieldConf']['config']['maxW'];
+				$conf['image.']['file.']['maxW'] = $PA['fieldConf']['config']['maxW'];
 			}
 			if (isset($PA['fieldConf']['config']['maxH'])) {
-				$conf['file.']['maxH'] = $PA['fieldConf']['config']['maxH'];
+				$conf['image.']['file.']['maxH'] = $PA['fieldConf']['config']['maxH'];
 			}
 
-			$images[] = $this->cObj->IMAGE(array('file' => $imgPath . $imgVal));
-			$images[] = $this->cObj->TEXT(array('value' => $conf['file']));
+			$images[] = $this->cObj->IMG_RESOURCE($conf['image.']);
+			if ($images[$errorcount] == '') {
+				$images[] = $this->cObj->TEXT(array('value' => $conf['image.']['file'], 'wrap' => '<b>|</b>'));
+				$errorcount++;
+			}
 		}
-		$images[] = $this->cObj->IMAGE(array('file' => '../../../../uploads/tx_sfimagemap/Nova_Orbis_Tabula_in_Lucem_Edita.jpg'));
-
-		return implode('', $images);
+		
+		return implode('<br/>', $images);
 	}
 	
 	protected function createCObj($pid = 1){
