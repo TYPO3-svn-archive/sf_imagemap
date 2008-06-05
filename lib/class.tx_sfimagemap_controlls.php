@@ -29,7 +29,6 @@ class tx_sfimagemap_controlls {
 		
 		$images = array();
 		foreach ($imgs as $imgKey => $imgVal) {
-<<<<<<< .mine
 			$tempImg = $imgObj->imageMagickConvert(PATH_site . $imgPath . $imgVal,
 				'jpg',
 				$maxW . 'm',
@@ -40,38 +39,10 @@ class tx_sfimagemap_controlls {
 				1);
 			if($tempImg[3] != '') {
 				$images[] = '<img src="'. t3lib_div::resolveBackPath($GLOBALS['BACK_PATH'] . '../' . substr($tempImg[3], strlen(PATH_site))) .'"/>';
-=======
-			$conf = array();
-			
-			$conf['image.']['file'] = $imgVal;
-			$conf['image.']['file.']['import.'] = $imgPath;
-			$conf['image.']['altText'] = $imgVal;
-			$conf['image.']['titleText'] = $imgVal;
-			
-			if (isset($PA['fieldConf']['config']['maxW'])) {
-				$conf['image.']['file.']['maxW'] = $PA['fieldConf']['config']['maxW'];
->>>>>>> .r336
 			}
-<<<<<<< .mine
-=======
-			if (isset($PA['fieldConf']['config']['maxH'])) {
-				$conf['image.']['file.']['maxH'] = $PA['fieldConf']['config']['maxH'];
-			}
-
-			$images[] = $this->cObj->IMG_RESOURCE($conf['image.']);
-			if ($images[$errorcount] == '') {
-				$images[] = $this->cObj->TEXT(array('value' => $conf['image.']['file'], 'wrap' => '<b>|</b>'));
-				$errorcount++;
-			}
->>>>>>> .r336
 		}
-<<<<<<< .mine
 
 		return implode('', $images);
-=======
-		
-		return implode('<br/>', $images);
->>>>>>> .r336
 	}
 }
 
