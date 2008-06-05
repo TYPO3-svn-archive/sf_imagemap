@@ -18,7 +18,7 @@ $TCA['tx_sfimagemap_map'] = array(
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_sfimagemap_map.gif',
 	),
 	'feInterface' => array(
-		'fe_admin_fieldList' => 'hidden, name, alt, image, areas',
+		'fe_admin_fieldList' => 'hidden, name, alt, image, width, height, areas',
 	)
 );
 //t3lib_extMgm::addLLrefForTCAdescr('tx_sfimagemap_map', 'EXT:' . $_EXTKEY . '/locallang_csh_tx_sfimagemap_map.xml');

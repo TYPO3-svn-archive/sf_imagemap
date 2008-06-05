@@ -14,6 +14,8 @@ CREATE TABLE tx_sfimagemap_map (
 	name varchar(255) DEFAULT '0' NOT NULL,
 	alt varchar(255) DEFAULT '' NOT NULL,
 	image blob NOT NULL,
+	width int(11) DEFAULT '0' NOT NULL,
+	height int(11) DEFAULT '0' NOT NULL,
 	
 	areas blob NOT NULL,
 	

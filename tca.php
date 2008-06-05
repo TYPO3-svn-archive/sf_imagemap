@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 $TCA['tx_sfimagemap_map'] = array(
 	'ctrl' => $TCA['tx_sfimagemap_map']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,name,alt,image,preview,areas'
+		'showRecordFieldList' => 'hidden,name,alt,image,width,height,preview,areas'
 	),
 	'feInterface' => $TCA['tx_sfimagemap_map']['feInterface'],
 	'columns' => array(
@@ -39,6 +39,24 @@ $TCA['tx_sfimagemap_map'] = array(
                 'maxitems' => 1,
             )
         ),
+		'width' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.width',
+			'config' => array(
+				'type' => 'input',
+				'size' => '5',
+				'eval' => 'int',
+			)
+		),
+		'height' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.height',
+			'config' => array(
+				'type' => 'input',
+				'size' => '5',
+				'eval' => 'int',
+			)
+		),
         'preview' => array(
         	'explude' => 0,
         	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.preview',
@@ -46,9 +64,9 @@ $TCA['tx_sfimagemap_map'] = array(
         	'config' => array(
         		'type' => 'user',
         		'userFunc' => 'EXT:sf_imagemap/lib/class.tx_sfimagemap_controlls.php:&tx_sfimagemap_controlls->getSingleField_typePreview',
-        		'field' => 'image',
-        		'maxW' => 500,
-        		'maxH' => 400,
+        		'imageField' => 'image',
+        		'widthField' => 'width',
+        		'heightField' => 'height',
         	)
         ),
 		'areas' => array(
@@ -65,10 +83,10 @@ $TCA['tx_sfimagemap_map'] = array(
 		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'name, hidden, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.div_image, image, preview, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.div_areas, areas')
+		'0' => array('showitem' => 'name, hidden, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.div_image, image;;1;;, preview, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map.div_areas, areas')
 	),
 	'palettes' => array(
-		'1' => array('showitem' => 'hidden;;1, alt')
+		'1' => array('showitem' => 'width, height')
 	),
 );
 

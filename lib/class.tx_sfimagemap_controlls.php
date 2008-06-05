@@ -3,7 +3,11 @@
 class tx_sfimagemap_controlls {
 	protected $table;
 	protected $row;
-	protected $field;
+	protected $conf;
+	
+	protected $imageField;
+	protected $widthField;
+	protected $heightField;
 	
 	public function __construct() {
 	}
@@ -11,17 +15,28 @@ class tx_sfimagemap_controlls {
 	private function init($PA, $fObj) {
 		$this->table = $PA['table'];
 		$this->row = $PA['row'];
-		$this->field = $PA['fieldConf']['config']['field'];
+		$this->conf = $PA['fieldConf']['config'];
+		$this->widthField = $PA['fieldConf']['config']['widthField'];
+		$this->heightField = $PA['fieldConf']['config']['heightField'];
 	}
 	
 	public function getSingleField_typePreview($PA, $fObj) {
 		$this->init($PA, $fObj);
 		
-		$imgPath = $GLOBALS['TCA'][$this->table]['columns'][$this->field]['config']['uploadfolder'] .'/';
-		$imgs = $fObj->extractValuesOnlyFromValueLabelList($this->row[$this->field]);
-		$maxW = isset($PA['fieldConf']['config']['maxW']) ? $PA['fieldConf']['config']['maxW'] : 100;
-		$maxH = isset($PA['fieldConf']['config']['maxH']) ? $PA['fieldConf']['config']['maxH'] : 100;
+		$imgPath = $GLOBALS['TCA'][$this->table]['columns'][$this->conf['imageField']]['config']['uploadfolder'] .'/';
+		$imgs = $fObj->extractValuesOnlyFromValueLabelList($this->row[$this->conf['imageField']]);
 		
+		if (isset($this->row[$this->conf['widthField']]) && $this->row[$this->conf['widthField']] > 0) {
+			$maxW = $this->row[$this->conf['widthField']]; 
+		} else {
+			$maxW = 100;
+		}
+		if (isset($this->row[$this->conf['heightField']]) && $this->row[$this->conf['heightField']] > 0) {
+			$maxH = $this->row[$this->conf['heightField']]; 
+		} else {
+			$maxH = 100;
+		}
+
 		$imgObj = t3lib_div::makeInstance('t3lib_stdGraphic');
 		$imgObj->init();
 		$imgObj->mayScaleUp = 0;
@@ -41,7 +56,7 @@ class tx_sfimagemap_controlls {
 				$images[] = '<img src="'. t3lib_div::resolveBackPath($GLOBALS['BACK_PATH'] . '../' . substr($tempImg[3], strlen(PATH_site))) .'"/>';
 			}
 		}
-
+;
 		return implode('', $images);
 	}
 }

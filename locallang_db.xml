@@ -25,6 +25,8 @@
 			<label index="tx_sfimagemap_map.div_image">Kartenbild</label>
 			<label index="tx_sfimagemap_map.alt">Alternate text</label>
 			<label index="tx_sfimagemap_map.image">Mapimage</label>
+			<label index="tx_sfimagemap_map.width">Width</label>
+			<label index="tx_sfimagemap_map.height">Height</label>
 			<label index="tx_sfimagemap_map.preview">Vorschau</label>
 			<label index="tx_sfimagemap_map.div_areas">Areas</label>
 			<label index="tx_sfimagemap_map.areas">Areaentries</label>
