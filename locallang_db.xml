@@ -22,12 +22,12 @@
 			<label index="tx_sfimagemap_area.linktopage">Link to page</label>
 			<label index="tx_sfimagemap_map">Imagemap</label>
 			<label index="tx_sfimagemap_map.title">Title</label>
-			<label index="tx_sfimagemap_map.div_image">Kartenbild</label>
+			<label index="tx_sfimagemap_map.div_image">Mapimage</label>
 			<label index="tx_sfimagemap_map.alt">Alternate text</label>
 			<label index="tx_sfimagemap_map.image">Mapimage</label>
-			<label index="tx_sfimagemap_map.width">Width</label>
-			<label index="tx_sfimagemap_map.height">Height</label>
-			<label index="tx_sfimagemap_map.preview">Vorschau</label>
+			<label index="tx_sfimagemap_map.width">maximal Width</label>
+			<label index="tx_sfimagemap_map.height">maximal Height</label>
+			<label index="tx_sfimagemap_map.preview">Preview</label>
 			<label index="tx_sfimagemap_map.div_areas">Areas</label>
 			<label index="tx_sfimagemap_map.areas">Areaentries</label>
 		</languageKey>
