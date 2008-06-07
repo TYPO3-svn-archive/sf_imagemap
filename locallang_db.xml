@@ -6,30 +6,36 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tt_content.list_type_pi1">Imagemap</label>
-			<label index="tx_sfimagemap_area">Imagemap Area</label>
-			<label index="tx_sfimagemap_area.name">Name</label>
-			<label index="tx_sfimagemap_area.alt">Alternate textt</label>
-			<label index="tx_sfimagemap_area.activebydefault">active by default</label>
-			<label index="tx_sfimagemap_area.hoverimage">Hoverimage</label>
-			<label index="tx_sfimagemap_area.shape">Shape of the entry</label>
-			<label index="tx_sfimagemap_area.shape.1">Circle</label>
-			<label index="tx_sfimagemap_area.shape.2">Square</label>
-			<label index="tx_sfimagemap_area.shape.3">Poly</label>
-			<label index="tx_sfimagemap_area.coordinates">Coordinates</label>
-			<label index="tx_sfimagemap_area.content">Content</label>
-			<label index="tx_sfimagemap_area.linktomap">Link to map</label>
-			<label index="tx_sfimagemap_area.linktopage">Link to page</label>
 			<label index="tx_sfimagemap_map">Imagemap</label>
-			<label index="tx_sfimagemap_map.title">Title</label>
-			<label index="tx_sfimagemap_map.div_image">Mapimage</label>
+			<label index="tx_sfimagemap_map.name">Name</label>
 			<label index="tx_sfimagemap_map.alt">Alternate text</label>
+			<label index="tx_sfimagemap_map.title">Title text</label>
+			<label index="tx_sfimagemap_map.imagetab">Image</label>
 			<label index="tx_sfimagemap_map.image">Mapimage</label>
 			<label index="tx_sfimagemap_map.width">maximal Width</label>
 			<label index="tx_sfimagemap_map.height">maximal Height</label>
 			<label index="tx_sfimagemap_map.preview">Preview</label>
-			<label index="tx_sfimagemap_map.div_areas">Areas</label>
+			<label index="tx_sfimagemap_map.areastab">Areas</label>
 			<label index="tx_sfimagemap_map.areas">Areaentries</label>
+			<label index="tx_sfimagemap_area">Imagemap Area</label>
+			<label index="tx_sfimagemap_area.name">Name</label>
+			<label index="tx_sfimagemap_area.alt">Alternate text</label>
+			<label index="tx_sfimagemap_area.title">Title text</label>
+			<label index="tx_sfimagemap_area.imagetab">Image</label>
+			<label index="tx_sfimagemap_area.mid">Map this area belongs to</label>
+			<label index="tx_sfimagemap_area.image">Image</label>
+			<label index="tx_sfimagemap_area.active">active (by default)</label>
+			<label index="tx_sfimagemap_area.active.1">active</label>
+			<label index="tx_sfimagemap_area.shape">Shape of area</label>
+			<label index="tx_sfimagemap_area.shape.1">Circle</label>
+			<label index="tx_sfimagemap_area.shape.2">Square</label>
+			<label index="tx_sfimagemap_area.shape.3">Poly</label>
+			<label index="tx_sfimagemap_area.coordinates">Coordinates</label>
+			<label index="tx_sfimagemap_area.relationtab">Relation</label>
+			<label index="tx_sfimagemap_area.content">Content</label>
+			<label index="tx_sfimagemap_area.map">Map</label>
+			<label index="tx_sfimagemap_area.page">Page</label>
+			<label index="tt_content.list_type_pi1">Imagemap</label>
 		</languageKey>
 	</data>
 </T3locallang>

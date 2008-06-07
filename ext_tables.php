@@ -18,7 +18,7 @@ $TCA['tx_sfimagemap_map'] = array(
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_sfimagemap_map.gif',
 	),
 	'feInterface' => array(
-		'fe_admin_fieldList' => 'hidden, name, alt, image, width, height, areas',
+		'fe_admin_fieldList' => 'hidden, name, alt, title, image, width, height',
 	)
 );
 //t3lib_extMgm::addLLrefForTCAdescr('tx_sfimagemap_map', 'EXT:' . $_EXTKEY . '/locallang_csh_tx_sfimagemap_map.xml');
@@ -31,7 +31,8 @@ $TCA['tx_sfimagemap_area'] = array(
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'default_sortby' => 'ORDER BY name',
-		'delete' => 'deleted',	
+		'delete' => 'deleted',
+		'dividers2tabs' => 1,
 		'enablecolumns' => array(		
 			'disabled' => 'hidden',
 		),
@@ -39,7 +40,7 @@ $TCA['tx_sfimagemap_area'] = array(
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_sfimagemap_area.gif',
 	),
 	'feInterface' => array(
-		'fe_admin_fieldList' => 'hidden, name, alt, activebydefault, hoverimage, shape, coordinates, content, linktomap, linktopage',
+		'fe_admin_fieldList' => 'hidden, name, alt, title, image, active, shape, coordinates, content, map, page',
 	)
 );
 //t3lib_extMgm::addLLrefForTCAdescr('tx_sfimagemap_area', 'EXT:' . $_EXTKEY . '/locallang_csh_tx_sfimagemap_area.xml');
