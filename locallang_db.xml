@@ -22,7 +22,6 @@
 			<label index="tx_sfimagemap_area.alt">Alternate text</label>
 			<label index="tx_sfimagemap_area.title">Title text</label>
 			<label index="tx_sfimagemap_area.imagetab">Image</label>
-			<label index="tx_sfimagemap_area.mid">Map this area belongs to</label>
 			<label index="tx_sfimagemap_area.image">Image</label>
 			<label index="tx_sfimagemap_area.active">active (by default)</label>
 			<label index="tx_sfimagemap_area.active.1">active</label>
@@ -32,9 +31,10 @@
 			<label index="tx_sfimagemap_area.shape.3">Poly</label>
 			<label index="tx_sfimagemap_area.coordinates">Coordinates</label>
 			<label index="tx_sfimagemap_area.relationtab">Relation</label>
-			<label index="tx_sfimagemap_area.content">Content</label>
-			<label index="tx_sfimagemap_area.map">Map</label>
-			<label index="tx_sfimagemap_area.page">Page</label>
+			<label index="tx_sfimagemap_area.mid">Map this area belongs to</label>
+			<label index="tx_sfimagemap_area.map">linked Map</label>
+			<label index="tx_sfimagemap_area.content">linked Content</label>
+			<label index="tx_sfimagemap_area.page">linked Page</label>
 			<label index="tt_content.list_type_pi1">Imagemap</label>
 		</languageKey>
 	</data>

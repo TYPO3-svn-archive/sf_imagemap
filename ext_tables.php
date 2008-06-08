@@ -1,6 +1,10 @@
 <?php
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
+if (TYPO3_MODE == 'BE') {
+	t3lib_extMgm::addModule('web', 'txsfimagemapM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'mod1/');
+}
+
 $TCA['tx_sfimagemap_map'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_map',		

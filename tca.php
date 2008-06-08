@@ -93,8 +93,7 @@ $TCA['tx_sfimagemap_map'] = array(
 				'size' => 20,
 				'foreign_table' => 'tx_sfimagemap_area',
 				'foreign_table_where' => 'AND (tx_sfimagemap_area.mid=###THIS_UID###) ORDER BY tx_sfimagemap_area.name',
-				'minitems' => 0,
-         		'maxitems' => 100,
+        		'renderMode' => 'singlebox',
 			)
 		),
 	),
@@ -147,18 +146,6 @@ $TCA['tx_sfimagemap_area'] = array(
 				'default' => '0'
 			)
 		),
-		'mid' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.mid',
-			'config' => array(
-				'type' => 'group',
-				'internal_type' => 'db',
-				'allowed' => 'tx_sfimagemap_map',
-				'size' => '1',
-				'maxitems' => '1',
-				'minitems' => '0',
-			)
-		),
       	'image' => array(
 			'exclude' => 0,
             'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.image',
@@ -201,6 +188,18 @@ $TCA['tx_sfimagemap_area'] = array(
 				'size' => '30',
 			)
         ),
+		'mid' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.mid',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'tx_sfimagemap_map',
+				'size' => '1',
+				'maxitems' => '1',
+				'minitems' => '0',
+			)
+		),
         'map' => array(
         	'exclude' => 0,
         	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.map',
@@ -239,7 +238,7 @@ $TCA['tx_sfimagemap_area'] = array(
         ),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden, name;;1, mid, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, shape, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, map, content, page')
+		'0' => array('showitem' => 'hidden, name;;1, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, shape, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, mid, map, content, page')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'alt, title'),
