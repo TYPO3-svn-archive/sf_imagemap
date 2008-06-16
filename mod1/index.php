@@ -2,22 +2,15 @@
 
 unset($MCONF);
 require ('conf.php');
-require ($BACK_PATH.'init.php');
-require ($BACK_PATH.'template.php');
+require ($BACK_PATH . 'init.php');
+require ($BACK_PATH . 'template.php');
+
 $LANG->includeLLFile('EXT:sf_imagemap/mod1/locallang.xml');
-require_once (PATH_t3lib.'class.t3lib_scbase.php');
-$BE_USER->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
-
-t3lib_extMgm::isLoaded('cms',1);
-
-	// We need the TCE forms functions
-require_once (PATH_t3lib.'class.t3lib_loaddbgroup.php');
-require_once (PATH_t3lib.'class.t3lib_tcemain.php');
-require_once (PATH_t3lib.'class.t3lib_clipboard.php');
-
-//require_once (PATH_t3lib."class.t3lib_page.php");
+require_once (PATH_t3lib . 'class.t3lib_scbase.php');
+$BE_USER->modAccess($MCONF, 1);	// This checks permissions and exits if the users has no permission for entry.
 
 class tx_sfimagemap_module1 extends t3lib_SCbase {
+	private $conf = array();
 
 	/**
 	 * Initialisation of this backend module
@@ -27,39 +20,6 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	 */
 	public function init() {
 		parent::init();
-		
-		$this->MOD_SETTINGS = t3lib_BEfunc::getModuleData($this->MOD_MENU, t3lib_div::_GP('SET'), $this->MCONF['name']);
-		
-	}
-	
-	/**
-	 * Preparing menu content and initializing clipboard and module TSconfig
-	 *
-	 * @return	void
-	 * @access	public
-	 */
-	public function menuConfig()	{
-		global $TYPO3_CONF_VARS;
-
-		$this->MOD_MENU = array(
-			'tt_content_showHidden' => 1,
-			'showOutline' => 1,
-			'clip_parentPos' => '',
-			'clip' => '',
-			'langDisplayMode' => '',
-			'recordsView_table' => '',
-			'recordsView_start' => ''
-		);
-
-			// page/be_user TSconfig settings and blinding of menu-items
-		$this->modTSconfig = t3lib_BEfunc::getModTSconfig($this->id,'mod.'.$this->MCONF['name']);
-		$this->MOD_MENU['view'] = t3lib_BEfunc::unsetMenuItems($this->modTSconfig['properties'],$this->MOD_MENU['view'],'menu.function');
-
-		if (!isset($this->modTSconfig['properties']['sideBarEnable'])) $this->modTSconfig['properties']['sideBarEnable'] = 1;
-		$this->modSharedTSconfig = t3lib_BEfunc::getModTSconfig($this->id, 'mod.SHARED');
-
-			// CLEANSE SETTINGS
-		$this->MOD_SETTINGS = t3lib_BEfunc::getModuleData($this->MOD_MENU, t3lib_div::_GP('SET'), $this->MCONF['name']);
 	}
 	
 	/**
@@ -69,13 +29,19 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	 * @access	public
 	 */
 	public function main() {
-			// Draw the header.
-		$this->doc = t3lib_div::makeInstance("mediumDoc");
-		$this->doc->backPath = $BACK_PATH;
+		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 		
-		if (($this->id && $access) || ($BE_USER->user["admin"] && !$this->id))	{
-			$this->doc->form='<form action="" method="POST" enctype="multipart/form-data">';
+		// Access check!
+		// The page will show only if there is a valid page and if this page may be viewed by the user
+		$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id,$this->perms_clause);
+		$access = is_array($this->pageinfo) ? 1 : 0;
+	
+		if (($this->id && $access) || ($BE_USER->user['admin'] && !$this->id))	{
 
+			$this->doc = t3lib_div::makeInstance('mediumDoc');
+			$this->doc->backPath = $BACK_PATH;
+			$this->doc->form='<form action="" method="GET">';
+	
 				// JavaScript
 			$this->doc->JScode = '
 				<script language="javascript" type="text/javascript">
@@ -88,39 +54,83 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 			$this->doc->postCode='
 				<script language="javascript" type="text/javascript">
 					script_ended = 1;
-					if (top.fsMod) top.fsMod.recentIds["web"] = '.intval($this->id).';
+					if (top.fsMod) top.fsMod.recentIds["web"] = 0;
 				</script>
 			';
-
-			$headerSection = $this->doc->getHeader("pages",$this->pageinfo,$this->pageinfo["_thePath"])."<br>".$LANG->sL("LLL:EXT:lang/locallang_core.php:labels.path").": ".t3lib_div::fixed_lgd_pre($this->pageinfo["_thePath"],50);
-
-			$this->content .= $this->doc->startPage($this->getLL("title"));
-			$this->content .= $this->doc->header($this->getLL("title"));
+			
+			$headerSection = $this->doc->getHeader('pages', $this->pageinfo, $this->pageinfo['_thePath']).'<br />'.$LANG->sL('LLL:EXT:lang/locallang_core.xml:labels.path').': '.t3lib_div::fixed_lgd_pre($this->pageinfo['_thePath'],50);
+	
+			$this->content .= $this->doc->startPage($this->getLL('title'));
+			$this->content .= $this->doc->header($this->getLL('title'));
 			$this->content .= $this->doc->spacer(5);
-			$this->content .= $this->doc->section("",$this->doc->funcMenu($headerSection,""));
+			$this->content .= $this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
 			$this->content .= $this->doc->divider(5);
 			
 			
-			$this->content .= 'edit maparea shapes here';
+			// Render content:
+			$this->moduleContent();
+
+			// ShortCut
+			if ($BE_USER->mayMakeShortcut())	{
+				$this->content .= $this->doc->spacer(20) . $this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));
+			}
 		} else {
-			$this->content .= $this->doc->startPage($this->getLL("title"));
-			$this->content .= $this->doc->header($this->getLL("title"));
-			$this->content .= $this->doc->spacer(5);
-			$this->content .= $this->doc->spacer(10);
+			// If no access or if ID == zero
+			$this->doc = t3lib_div::makeInstance('mediumDoc');
+			$this->doc->backPath = $BACK_PATH;
+	
+			$this->content.=$this->doc->startPage($this->getLL('title'));
+			$this->content.=$this->doc->header($this->getLL('title'));
+			$this->content.=$this->doc->spacer(5);
+			$this->content.=$this->doc->spacer(10);
 		}
 	}
 	
-	/**
-	 * Echoes the HTML output of this module
-	 *
-	 * @return	void
-	 * @access	public
-	 */
+	private function moduleContent() {
+		switch((string)$this->MOD_SETTINGS['function'])	{
+			case 1:
+			default:
+				$this->selectMap();
+				break;
+			case 2:
+				$this->editMap();
+				break;
+		}
+	}
+	
+	public function menuConfig() {
+		$this->MOD_MENU = array (
+			'function' => array (
+				'1' => $this->getLL('selectMap'),
+				'2' => $this->getLL('editMap'),
+			)
+		);
+		parent::menuConfig();		
+	}
+
 	public function printContent() {
-		$this->content .= $this->doc->endPage();
 		echo $this->content;
 	}
 	
+	private function selectMap() {
+		$select_fields = '*';
+		$from_table = 'tx_sfimagemap_map';
+		$where_clause = 'pid = ' . $this->id;// . $this->cObj->enableFields('tx_sfimagemap_map');
+		$orderBy = 'sorting';
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$this->renderMapPreview($row);
+		}
+	}
+	
+	private function renderMapPreview(array $mapData) {
+		debug($mapData['name']);
+	}
+	
+	private function editMap() {
+		
+	}
 	/**
 	 * Returns the Label for the given index.
 	 * Just an abstract to get rid of all the global $LANG in the functions;

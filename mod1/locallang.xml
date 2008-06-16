@@ -6,10 +6,9 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="title">Imagemap Editor</label>
-			<label index="function1">Function #1</label>
-			<label index="function2">Function #2</label>
-			<label index="function3">Function #3</label>
+			<label index="selectMap"><![CDATA[Karte auswählen]]></label>
+			<label index="editMap">Karte bearbeiten</label>
+			<label index="title">der Titel</label>
 		</languageKey>
 	</data>
 </T3locallang>
