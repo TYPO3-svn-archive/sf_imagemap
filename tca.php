@@ -109,7 +109,7 @@ $TCA['tx_sfimagemap_map'] = array(
 $TCA['tx_sfimagemap_area'] = array(
 	'ctrl' => $TCA['tx_sfimagemap_area']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,name,alt,title,mid,image,active,shape,coordinates,content,map,page'
+		'showRecordFieldList' => 'hidden,name,alt,title,mid,image,active,coordinates,content,map,page'
 	),
 	'feInterface' => $TCA['tx_sfimagemap_area']['feInterface'],
 	'columns' => array(
@@ -166,18 +166,6 @@ $TCA['tx_sfimagemap_area'] = array(
         	'config' => array(
         		'type' => 'check',
         		'default' => '0'
-        	)
-        ),
-        'shape' => array(
-        	'exclude' => 0,
-        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.shape',
-        	'config' => array(
-        		'type' => 'select',
-        		'items' => Array (
-					Array('LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.shape.1', '1'),
-					Array('LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.shape.2', '2'),
-					Array('LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.shape.3', '3'),
-				)
         	)
         ),
         'coordinates' => array(
@@ -238,7 +226,7 @@ $TCA['tx_sfimagemap_area'] = array(
         ),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden, name;;1, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, shape, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, mid, map, content, page')
+		'0' => array('showitem' => 'hidden, name;;1, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, mid, map, content, page')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'alt, title'),

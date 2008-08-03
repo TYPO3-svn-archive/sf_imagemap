@@ -8,7 +8,10 @@
 		<languageKey index="default" type="array">
 			<label index="selectMap"><![CDATA[Karte auswählen]]></label>
 			<label index="editMap">Karte bearbeiten</label>
-			<label index="title">der Titel</label>
+			<label index="title">Imagemaps</label>
 		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="title">Imagemaps</label>
+		</languageKey> 
 	</data>
 </T3locallang>

@@ -6,9 +6,12 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="mlang_tabs_tab">Maparea Shapes</label>
-			<label index="mlang_labels_tabdescr">Edit shapes of mapareas</label>
-			<label index="mlang_labels_tablabel">Maparea Shapes</label>
+			<label index="mlang_tabs_tab">Imagemaps</label>
+			<label index="mlang_labels_tabdescr">Edit imagemaps and its shapes</label>
+			<label index="mlang_labels_tablabel">Imagemaps</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="mlang_labels_tablabel">Imagemaps</label>
 		</languageKey>
 	</data>
 </T3locallang>

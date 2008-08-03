@@ -47,7 +47,6 @@ CREATE TABLE tx_sfimagemap_area (
 	mid int(11) DEFAULT '0' NOT NULL,
 	image blob NOT NULL,
 	active tinyint(3) DEFAULT '0' NOT NULL,
-	shape tinytext NOT NULL,
     coordinates text NOT NULL,
 
     content blob NOT NULL,
