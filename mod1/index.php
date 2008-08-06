@@ -29,16 +29,14 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	 * @access	public
 	 */
 	public function initAction() {
-		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
+		$this->backPath = $GLOBALS['BACK_PATH'];
+		$this->beUser =& $GLOBALS['BE_USER'];
+		$this->client =& $GLOBALS['CLIENT'];
+		$this->lang =& $GLOBALS['LANG'];
+		$this->tca =& $GLOBALS['TCA'];
+		$this->tcaDescr =& $GLOBALS['TCA_DESCR'];
+		$this->typo3ConfVars =& $GLOBALS['TYPO3_CONF_VARS'];
 
-		$this->backPath = $BACK_PATH;
-		$this->beUser =& $BE_USER;
-		$this->client =& $CLIENT;
-		$this->lang =& $LANG;
-		$this->tca =& $TCA;
-		$this->tcaDescr =& $TCA_DESCR;
-		$this->typo3ConfVars =& $TYPO3_CONF_VARS;
-		
 		parent::init();
 
 		$this->appendAction('prepareDocument');
@@ -46,9 +44,7 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		if (!$this->getAccessRights()) {
 			$this->appendAction('noAccess');
 		} else {
-			$this->appendAction('createContentHeader');
 			$this->appendAction('createContent');
-			$this->appendAction('createContentFooter');
 		}
 	}
 	
@@ -58,58 +54,41 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	 * @return	void
 	 * @access	public
 	 */
-	public function main() {	
+	public function main() {
 		do {
-			eval('$this->' . $this->getNextAction() . 'Action();');
-			$i++; echo $this->getNextAction();
-			debug($this->content);
-		} while(current($this->actionQuee) && $i < 100);
+			$action = $this->getAction() . 'Action';
+			call_user_func(array('tx_sfimagemap_module1', $action));
+		} while(next($this->actionQuee) != null);
 
-		return $this->content;
+		$docHeaderButtons = $this->getButtons();
+		$markers = array(
+			'CSH' => $docHeaderButtons['csh'],
+			'FUNC_MENU' => $this->getFuncMenu(),
+			'CONTENT' => $this->content,
+			'SAVE' => '',
+		);
+		// Build the <body> for the module
+		$this->content = $this->doc->startPage($this->getLL('title'));
+		$this->content.= $this->doc->moduleBody($this->pageinfo, $docHeaderButtons, $markers);
+		$this->content.= $this->doc->endPage();
+		$this->content = $this->doc->insertStylesAndJS($this->content);
+		
+		echo $this->content;
 	}
 
 	private function prepareDocumentAction() {
-		$this->doc = t3lib_div::makeInstance('mediumDoc');
+		$this->doc = t3lib_div::makeInstance('template');
 		$this->doc->backPath = $this->backPath;
+		
+		$GLOBALS['TBE_STYLES']['htmlTemplates']['sf_imagemap.html'] = t3lib_extMgm::extRelPath('sf_imagemap') . 'mod1/sf_imagemap.html';
+		$this->doc->setModuleTemplate('sf_imagemap.html');
+		#additional js-files
+		$this->doc->loadJavascriptLib('contrib/scriptaculous/scriptaculous.js?load=builder,effects,dragdrop,controls,slider');
+		$this->doc->docType = 'xhtml_trans';
 	}
-	
+		
 	private function noAccessAction() {
 		$this->content .= $this->doc->startPage($this->getLL('title'));
-	}
-	
-	private function createContentHeaderAction() {
-		$this->doc->form='<form action="" method="GET">';
-
-			// JavaScript
-		$this->doc->JScode = '
-			<script language="javascript" type="text/javascript">
-				script_ended = 0;
-				function jumpToUrl(URL)	{
-					document.location = URL;
-				}
-			</script>
-		';
-		$this->doc->postCode='
-			<script language="javascript" type="text/javascript">
-				script_ended = 1;
-				if (top.fsMod) top.fsMod.recentIds["web"] = 0;
-			</script>
-		';
-		
-		$headerSection = $this->doc->getHeader('tx_sfimagemap_map', $this->pageinfo, $this->pageinfo['_thePath']).'<br />'.$this->lang->sL('LLL:EXT:lang/locallang_core.xml:labels.path').': '.t3lib_div::fixed_lgd_pre($this->pageinfo['_thePath'],50);
-
-		$this->content .= $this->doc->startPage($this->getLL('title'));
-		$this->content .= $this->doc->header($this->getLL('title'));
-		$this->content .= $this->doc->spacer(5);
-		$this->content .= $this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
-		$this->content .= $this->doc->divider(5);
-	}
-	
-	private function createContentFooterAction() {
-			// ShortCut
-		if ($this->beUser->mayMakeShortcut())	{
-			$this->content .= $this->doc->spacer(20) . $this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));
-		}
 	}
 	
 	private function createContentAction() {
@@ -124,14 +103,35 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		}
 	}
 	
-	public function menuConfig() {
+	protected function getButtons()	{
+		$buttons = array(
+			'csh' => '',
+			'shortcut' => ''
+		);
+			// CSH
+		//$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_func', '', $GLOBALS['BACK_PATH']);
+			// Shortcut
+		if ($GLOBALS['BE_USER']->mayMakeShortcut())	{
+			$buttons['shortcut'] = $this->doc->makeShortcutIcon('', 'function', $this->MCONF['name']);
+		}
+		return $buttons;
+	}
+	
+	protected function getFuncMenu() {
 		$this->MOD_MENU = array (
 			'function' => array (
 				'1' => $this->getLL('selectMap'),
 				'2' => $this->getLL('editMap'),
 			)
 		);
-		parent::menuConfig();		
+		
+		$funcMenu = t3lib_BEfunc::getFuncMenu(
+			0,
+			'SET[function]',
+			$this->MOD_SETTINGS['function'],
+			$this->MOD_MENU['function']
+		);
+		return $funcMenu;
 	}
 	
 	private function selectMap() {
@@ -178,9 +178,8 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		return false;
 	}
 	
-	private function getNextAction() {
+	private function getAction() {
 		$action = current($this->actionQuee);
-		next($this->actionQuee);
 		return $action;
 	}
 	
@@ -207,6 +206,6 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/sf_imag
 
 	// Make instance:
 $SOBE = t3lib_div::makeInstance('tx_sfimagemap_module1');
-echo $SOBE->main();
+$SOBE->main();
 
 ?>

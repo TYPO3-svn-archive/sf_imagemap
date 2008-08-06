@@ -6,7 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="selectMap"><![CDATA[Karte auswählen]]></label>
+			<label index="selectMap">Karte auflisten</label>
 			<label index="editMap">Karte bearbeiten</label>
 			<label index="title">Imagemaps</label>
 		</languageKey>
