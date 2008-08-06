@@ -13,7 +13,7 @@
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'advanced Imagemap',
 	'description' => 'Convinient kind of imagemap contected to other maps, pages and content',
-	'category' => 'plugin',
+	'category' => 'Sebastian Fischer',
 	'author' => 'Sebastian Fischer',
 	'author_email' => 'sebastian@myfischer.eu',
 	'shy' => '',
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
 	'author_company' => '',
-	'version' => '0.1.0',
+	'version' => '0.2.0',
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',

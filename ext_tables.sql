@@ -20,11 +20,24 @@ CREATE TABLE tx_sfimagemap_map (
 	height int(11) DEFAULT '0' NOT NULL,
 
 	areas blob NOT NULL,
-	
+
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );
 
+
+
+#
+# Table structure for table 'tx_sfimagemap_mapnarea_mm'
+#
+CREATE TABLE tx_sfimagemap_mapnarea_mm (
+  uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+  uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  tablenames tinytext NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
 
 
 #
@@ -44,14 +57,14 @@ CREATE TABLE tx_sfimagemap_area (
 	alt varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 
-	mid int(11) DEFAULT '0' NOT NULL,
+	map int(11) DEFAULT '0' NOT NULL,
 	image blob NOT NULL,
 	active tinyint(3) DEFAULT '0' NOT NULL,
     coordinates text NOT NULL,
 
-    content blob NOT NULL,
-	map int(11) DEFAULT '0' NOT NULL,
-    page tinytext NOT NULL,
+    linked_content blob NOT NULL,
+	linked_map int(11) DEFAULT '0' NOT NULL,
+    linked_page tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

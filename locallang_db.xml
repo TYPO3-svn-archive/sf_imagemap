@@ -31,10 +31,10 @@
 			<label index="tx_sfimagemap_area.shape.3">Poly</label>
 			<label index="tx_sfimagemap_area.coordinates">Coordinates</label>
 			<label index="tx_sfimagemap_area.relationtab">Relation</label>
-			<label index="tx_sfimagemap_area.mid">Map this area belongs to</label>
-			<label index="tx_sfimagemap_area.map">linked Map</label>
-			<label index="tx_sfimagemap_area.content">linked Content</label>
-			<label index="tx_sfimagemap_area.page">linked Page</label>
+			<label index="tx_sfimagemap_area.map">Map this area belongs to</label>
+			<label index="tx_sfimagemap_area.linked_map">linked Map</label>
+			<label index="tx_sfimagemap_area.linked_content">linked Content</label>
+			<label index="tx_sfimagemap_area.linked_page">linked Page</label>
 			<label index="tt_content.list_type_pi1">Imagemap</label>
 		</languageKey>
 	</data>

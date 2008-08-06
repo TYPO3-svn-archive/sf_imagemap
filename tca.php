@@ -92,8 +92,51 @@ $TCA['tx_sfimagemap_map'] = array(
 				'type' => 'select',
 				'size' => 20,
 				'foreign_table' => 'tx_sfimagemap_area',
-				'foreign_table_where' => 'AND (tx_sfimagemap_area.mid=###THIS_UID###) ORDER BY tx_sfimagemap_area.name',
-        		'renderMode' => 'singlebox',
+				//'foreign_table_where' => 'AND (tx_sfimagemap_area.mid=###THIS_UID###) ORDER BY tx_sfimagemap_area.name',
+				//'renderMode' => 'singlebox',
+				/*new begin*/
+        		'foreign_table_where' => ' ORDER BY tx_sfimagemap_area.name',
+        		'MM' => 'tx_sfimagemap_mapnarea_mm',
+				'MM_match_fields' => Array(
+                        'tablenames' => 'tx_sfimagemap_area'
+                ),
+
+		        'maxitems' => 1000,
+				'wizards' => array (
+        			'_PADDING' => 5,
+        			'_VERTICAL' => 1,
+        			'_VALIGN' => 'top',
+        			'edit' => array(
+						'type' => 'popup',
+						'title' => 'Edit filemount',
+						'script' => 'wizard_edit.php',
+						'icon' => 'edit2.gif',
+						'popup_onlyOpenIfSelected' => 1,
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+        			),
+        			'add' => array(
+						'type' => 'script',
+						'title' => 'Create new area',
+						'icon' => 'add.gif',
+						'params' => Array(
+							'table'=>'tx_sfimagemap_area',
+							'pid' => '0',
+							'setValue' => 'prepend'
+						),
+						'script' => 'wizard_add.php',
+					),
+        			'list' => array(
+						'type' => 'script',
+						'title' => 'List Areas',
+						'icon' => 'list.gif',
+						'params' => Array(
+							'table'=>'tx_sfimagemap_area',
+							'pid' => '0',
+						),
+						'script' => 'wizard_list.php',
+        			)
+				)
+				/*new end*/
 			)
 		),
 	),
@@ -109,7 +152,7 @@ $TCA['tx_sfimagemap_map'] = array(
 $TCA['tx_sfimagemap_area'] = array(
 	'ctrl' => $TCA['tx_sfimagemap_area']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,name,alt,title,mid,image,active,coordinates,content,map,page'
+		'showRecordFieldList' => 'hidden,name,alt,title,map,image,active,coordinates,linked_content,linked_map,linked_page'
 	),
 	'feInterface' => $TCA['tx_sfimagemap_area']['feInterface'],
 	'columns' => array(
@@ -176,21 +219,26 @@ $TCA['tx_sfimagemap_area'] = array(
 				'size' => '30',
 			)
         ),
-		'mid' => array(
+		'map' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.mid',
+			'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.map',
 			'config' => array(
-				'type' => 'group',
-				'internal_type' => 'db',
-				'allowed' => 'tx_sfimagemap_map',
+				'type' => 'select',
 				'size' => '1',
 				'maxitems' => '1',
 				'minitems' => '0',
+				'foreign_table' => 'tx_sfimagemap_map',
+                'MM' => 'tx_sfimagemap_mapnarea_mm',
+                'MM_foreign_select' => 1,
+                'MM_opposite_field' => 'areas',
+                'MM_match_fields' => Array(
+                        'tablenames' => 'tx_sfimagemap_area'
+                ),
 			)
 		),
-        'map' => array(
+        'linked_map' => array(
         	'exclude' => 0,
-        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.map',
+        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.linked_map',
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -200,9 +248,9 @@ $TCA['tx_sfimagemap_area'] = array(
 				'minitems' => '0',
 			)
         ),
-        'content' => array(
+        'linked_content' => array(
         	'exclude' => 0,
-        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.content',
+        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.linked_content',
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -212,9 +260,9 @@ $TCA['tx_sfimagemap_area'] = array(
 				'minitems' => '0',
 			)
         ),
-        'page' => array(
+        'linked_page' => array(
         	'exclude' => 0,
-        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.page',
+        	'label' => 'LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.linked_page',
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -226,7 +274,7 @@ $TCA['tx_sfimagemap_area'] = array(
         ),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden, name;;1, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, mid, map, content, page')
+		'0' => array('showitem' => 'hidden, name;;1, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.imagetab, image, active, coordinates, --div--;LLL:EXT:sf_imagemap/locallang_db.xml:tx_sfimagemap_area.relationtab, map, linked_map, linked_content, linked_page')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'alt, title'),
