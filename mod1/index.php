@@ -36,6 +36,8 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		$this->tca =& $GLOBALS['TCA'];
 		$this->tcaDescr =& $GLOBALS['TCA_DESCR'];
 		$this->typo3ConfVars =& $GLOBALS['TYPO3_CONF_VARS'];
+		
+		$this->returnUrl = t3lib_div::_GP('returnUrl');
 
 		parent::init();
 
@@ -50,6 +52,7 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	
 	/**
 	 * Main function of the module.
+	 * Fetches actions from quee and calls them.
 	 *
 	 * @return	void
 	 * @access	public
@@ -65,7 +68,6 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 			'CSH' => $docHeaderButtons['csh'],
 			'FUNC_MENU' => $this->getFuncMenu(),
 			'CONTENT' => $this->content,
-			'SAVE' => '',
 		);
 		// Build the <body> for the module
 		$this->content = $this->doc->startPage($this->getLL('title'));
@@ -76,6 +78,10 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		echo $this->content;
 	}
 
+	/**
+	 * starts the document by instanciating 'template', reading the html-templatefile, setting backpath and doctype
+	 *
+	 */
 	private function prepareDocumentAction() {
 		$this->doc = t3lib_div::makeInstance('template');
 		$this->doc->backPath = $this->backPath;
@@ -87,36 +93,54 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		$this->doc->docType = 'xhtml_trans';
 	}
 		
+	/**
+	 * if the user has no access a blank page with the title is returned
+	 *
+	 */
 	private function noAccessAction() {
 		$this->content .= $this->doc->startPage($this->getLL('title'));
 	}
 	
+	/**
+	 * switch the output by selected function
+	 *
+	 */
 	private function createContentAction() {
 		switch((string)$this->MOD_SETTINGS['function'])	{
+			case 2:
+				$this->editMap();
+				break;
 			case 1:
 			default:
 				$this->selectMap();
 				break;
-			case 2:
-				$this->editMap();
-				break;
 		}
 	}
 	
+	/**
+	 * collect information for the buttons that get rendert in the docheader
+	 *
+	 * @return array	array of buttons
+	 */
 	protected function getButtons()	{
 		$buttons = array(
 			'csh' => '',
 			'shortcut' => ''
 		);
-			// CSH
-		//$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_func', '', $GLOBALS['BACK_PATH']);
-			// Shortcut
+		// CSH
+		$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_func', '', $GLOBALS['BACK_PATH']);
+		// Shortcut
 		if ($GLOBALS['BE_USER']->mayMakeShortcut())	{
 			$buttons['shortcut'] = $this->doc->makeShortcutIcon('', 'function', $this->MCONF['name']);
 		}
 		return $buttons;
 	}
 	
+	/**
+	 * collect functions for function menu dropdown and renders the html output
+	 *
+	 * @return string HTML code of the dropdown
+	 */
 	protected function getFuncMenu() {
 		$this->MOD_MENU = array (
 			'function' => array (
@@ -124,7 +148,7 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 				'2' => $this->getLL('editMap'),
 			)
 		);
-		
+
 		$funcMenu = t3lib_BEfunc::getFuncMenu(
 			0,
 			'SET[function]',
@@ -134,10 +158,14 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		return $funcMenu;
 	}
 	
+	/**
+	 * query database for all maps related to the selected page
+	 *
+	 */
 	private function selectMap() {
 		$select_fields = '*';
 		$from_table = 'tx_sfimagemap_map';
-		$where_clause = 'pid = ' . $this->id . ' AND deleted = 0 AND hidden = 0';
+		$where_clause = 'pid = ' . $this->id . ' AND deleted = 0';
 		$orderBy = 'sorting';
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -165,10 +193,11 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	/**
 	 * Access check!
 	 * The page will show only if there is a valid page and if this page may be viewed by the user
+	 * 
 	 * @return boolean the wether the access is accepted or denied
 	 */
 	private function getAccessRights() {
-		$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id,$this->perms_clause);
+		$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id, $this->perms_clause);
 		$access = is_array($this->pageinfo) ? 1 : 0;
 		
 		if (($this->id && $access) || ($this->beUser->user['admin'] && !$this->id)) {
@@ -178,11 +207,21 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 		return false;
 	}
 	
+	/**
+	 * gets the current action form quee and returns it
+	 *
+	 * @return string	name of action
+	 */
 	private function getAction() {
 		$action = current($this->actionQuee);
 		return $action;
 	}
 	
+	/**
+	 * add action name to the quee
+	 *
+	 * @param string $value
+	 */
 	private function appendAction($value) {
 		$this->actionQuee = array_merge($this->actionQuee, array($value));
 	}
@@ -194,6 +233,13 @@ class tx_sfimagemap_module1 extends t3lib_SCbase {
 	 * @param	string $index: Index of Label in Languagearray
 	 * @return	void
 	 * @access	public
+	 */
+	
+	/**
+	 * return translation for label with name index
+	 *
+	 * @param string $index	name of label
+	 * @return string	value of translation
 	 */
 	private function getLL($index) {
 		return $this->lang->getLL($index, $index);
